@@ -1,4 +1,6 @@
 #include "book.h"
+#include "user.h"
+#include "library.h"
 #include <iostream>
 
 // Constructeur par défaut
@@ -53,8 +55,19 @@ void Book::checkOut(const string& borrowerId) {
 void Book::returnBook() {
     this->setAvailability(true);
 }
-string Book::toString() const {
-    return this->getTitle() + " | " + this->getAuthor() + " | " + this->getISBN() + " | " + (this->isAvailable ? "Available" : "Unavailable") + (this->borrowerId.length() > 0 ? " | " + borrowerId : "");
+string Book::toString(const Library& library) const {
+    // If unavailable
+    bool borrowed = this->borrowerId.length() > 0;
+    // BorrowedUser
+    User* borrowedUser = library.findUserById(borrowerId);
+
+    return 
+        this->getTitle() + " | " + 
+        this->getAuthor() + " | " + 
+        this->getISBN() + " | " + 
+        (this->isAvailable ? "Available" : "Unavailable") + 
+        // Afficher le nom d'utilisateur
+        (borrowed ? " | " + borrowedUser->getName() : "");
 }
 string Book::toFileFormat() const {
     return title + "|" + author + "|" + isbn + "|" + (isAvailable ? "1" : "0") + "|" + borrowerId;
