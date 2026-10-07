@@ -6,7 +6,10 @@ Book::Book() : title(""), author(""), isbn("") {};
 
 // Constructeur avec paramètre
 Book::Book(const string& title, const string& author, const string& isbn) : title(title), author(author), isbn(isbn) {
-    
+    this->title = title;
+    this->author = author;
+    this->isbn = isbn;
+    this->isAvailable = true;
 }
 
 // Getters
@@ -48,14 +51,31 @@ void Book::checkOut(const string& borrowerId) {
     // TODO
 }
 void Book::returnBook() {
-    // TODO
+    this->setAvailability(true);
 }
 string Book::toString() const {
-    // TODO
+    return this->getTitle() + " | " + this->getAuthor() + " | " + this->getISBN() + " | " + (this->isAvailable ? "Available" : "Unavailable") + (this->borrowerId.length() > 0 ? " | " + borrowerId : "");
 }
 string Book::toFileFormat() const {
-    // TODO
+    return title + "|" + author + "|" + isbn + "|" + (isAvailable ? "1" : "0") + "|" + borrowerId;
 }
 void Book::fromFileFormat(const string& line) {
-    // TODO
+    // Attributs objets
+    string att[5];
+    // Position attributs
+    int posAtt = 0;
+    // Loop attributs
+    for (int i = 0; i < 5; ++i) {
+        // Trouver |
+		int endPos = line.find('|', posAtt);
+        // Ajout substring pour attribut
+		att[i] = line.substr(posAtt, endPos - posAtt);
+		posAtt = endPos + 1;
+	}
+    // Stocker attributs from file
+	title = att[0];
+	author = att[1];
+	isbn = att[2];
+	isAvailable = (att[3] == "1");
+	borrowerId = att[4];
 }
