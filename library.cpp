@@ -154,6 +154,17 @@ void Library::displayAllBooks() {
     }
     
     cout << "\n=== TOUS LES LIVRES ===\n";
+
+    // Sort books
+    std::sort(books.begin(), books.end(), 
+        [](const std::unique_ptr<Book>& a, const std::unique_ptr<Book>& b) {
+            // Sort title and author
+            if (a->getTitle() != b->getTitle()) {
+                return a->getTitle() < b->getTitle();
+            }
+            return a->getAuthor() < b->getAuthor();
+        });
+
     for (size_t i = 0; i < books.size(); ++i) {
         cout << "\nLivre " << (i + 1) << " :\n";
         cout << books[i]->toString(*this) << "\n";
