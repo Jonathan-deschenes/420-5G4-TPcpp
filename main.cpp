@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
                     library.addBook(newBook);
                     cout << "Livre ajouté avec succès !\n";
                     // Log Manager
-                    logManager.writeLog("[EMPRUNT]", newBook);
+                    logManager.writeLog("[AJOUT]", newBook);
                 }
                 pauseForInput();
                 break;
